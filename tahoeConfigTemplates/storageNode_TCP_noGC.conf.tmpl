@@ -1,0 +1,46 @@
+#This file is a template for the confguration of a Tahoe-LAFS node.
+#The values will be provisionned by the deploy scripts from the value in the *.env config files.
+
+[node]
+nickname = {{.Service.Name}}-{{.Service.ID}}
+#Change the default port for the node's webserver. The webserver is disabled if not set.
+web.port =
+
+#The "tub" is the servers's component listening for the requests on the TAHOE-LAFS grid.
+#The tub.port controls the port and protocol used by the node to listen to the nodes on the grid.
+#The tub.location controls the port and protocol shared to the grid's introducers.
+#If one of the two former settings is disabled, the other must be also disabled. This causes a client-only node.
+#The port 36000 is arbitrary
+tub.port = tcp:36000
+tub.location = tcp:{{.Service.Name}}-{{.Service.ID}}.{SERVICE_URL}:36000
+
+#The client connection timeout in seconds, default of 240 (4 minutes). Disabled if unset.
+#86400 seconds is a day
+timeout.disconnect = 86400
+
+#If this is set to false, stop and warns if the node would indicates it's IP from the present configuration file.
+reveal-IP-address = true
+
+[connections]
+#Set the connection hints for the tcp handlers.
+#Can be set to disabled, i2p, tcp or tor.
+tcp = tcp
+
+
+[connections]
+tcp = tcp
+
+[storage]
+enabled = true
+storage_dir = "/storage"
+reserved_space = {RESERVED_STORAGE}
+readonly = false
+expire.enabled = false
+#If this setting is false, a storage plugin is needed
+anonymous = true
+#Storage plugins to load, default to none
+#plugins = 
+
+[helper]
+#Define if the node is an helper node on the grid.
+enabled = false

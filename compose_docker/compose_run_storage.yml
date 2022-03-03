@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+   storageNode:
+    image: "derkades/tahoe-lafs:dev"
+    networks:
+      nodeHosts: {}
+    environment:
+      - SERVICE_URL=${SERVICE_URL}
+      - TUB_PORT=${TAHOE_TUB_PORT}
+    deploy:
+      mode: global
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 1G 
+      placement:
+        constraints:
+          - node.labels.tahoe.storage == true
+    volumes:
+      - type: bind
+        source: ${TAHOE_CFG_DIR}
+        target: /data
+      - type: bind
+        source: ${TAHOE_STORAGE_DIR}
+        target: /storage
+    command: run /data
+networks:
+  nodeHosts:
+    external: true
+    name: host

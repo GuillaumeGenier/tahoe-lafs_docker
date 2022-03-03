@@ -1,0 +1,27 @@
+version: "3"
+services:
+   storageNode:
+    image: "derkades/tahoe-lafs:dev"
+    networks:
+      nodeHosts: {}
+    deploy:
+      mode: global
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 2G 
+      placement:
+        constraints:
+          - node.labels.tahoe.storage == true
+    volumes:
+      - type: bind
+        source: TAHOE_CFG_DIR
+        target: /data
+      - type: bind
+        source: ${TAHOE_STORAGE_DIR}
+        target: /storage
+    command: create-node --hostname=${SERVICE_URL} /data
+networks:
+  nodeHosts:
+    external: true
+    name: host
