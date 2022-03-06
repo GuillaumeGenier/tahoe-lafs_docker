@@ -1,8 +1,8 @@
-#This file is a template for the confguration of a Tahoe-LAFS node.
-#The values will be provisionned by the deploy scripts from the value in the *.env config files.
+#This file is a template for the confguration of a Tahoe-LAFS storage node (tahoe.cfg).
+#The values will be provisionned by the environement variables from the actual docker container instance.
 
 [node]
-nickname = {{.Service.Name}}-{{.Service.ID}}
+nickname = {{.Service.Name}}-{{.Node.Hostname}}
 #Change the default port for the node's webserver. The webserver is disabled if not set.
 web.port =
 
@@ -10,9 +10,8 @@ web.port =
 #The tub.port controls the port and protocol used by the node to listen to the nodes on the grid.
 #The tub.location controls the port and protocol shared to the grid's introducers.
 #If one of the two former settings is disabled, the other must be also disabled. This causes a client-only node.
-#The port 36000 is arbitrary
-tub.port = tcp:36000
-tub.location = tcp:{{.Service.Name}}-{{.Service.ID}}.{SERVICE_URL}:36000
+tub.port = tcp:{{env "TAHOE_TUB_PORT"}}
+tub.location = tcp:{{.Service.Name}}-{{.Node.ID}}.{{env "SERVICE_URL"}}:{{env "TAHOE_TUB_PORT"}}
 
 #The client connection timeout in seconds, default of 240 (4 minutes). Disabled if unset.
 #86400 seconds is a day
@@ -22,18 +21,12 @@ timeout.disconnect = 86400
 reveal-IP-address = true
 
 [connections]
-#Set the connection hints for the tcp handlers.
-#Can be set to disabled, i2p, tcp or tor.
-tcp = tcp
-
-
-[connections]
 tcp = tcp
 
 [storage]
 enabled = true
 storage_dir = "/storage"
-reserved_space = {RESERVED_STORAGE}
+reserved_space = 1G
 readonly = false
 expire.enabled = false
 #If this setting is false, a storage plugin is needed

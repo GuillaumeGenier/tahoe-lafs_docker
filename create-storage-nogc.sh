@@ -15,6 +15,6 @@ export TAHOE_TUB_PORT
 mkdir -p ${TAHOE_CFG_DIR}
 mkdir -p ${TAHOE_STORAGE_DIR}
 
-docker stack deploy tahoe_${SERVICE_URL} -c $PWD/compose_docker/compose_init_storage.yml
+docker stack deploy tahoe_ -c $PWD/compose_docker/compose_init_storage.yml
 
-docker stack deploy tahoe_${SERVICE_URL} -c $PWD/compose_docker/compose_run_storage.yml
+docker stack deploy tahoe_ -c $PWD/compose_docker/compose_run_storage.yml

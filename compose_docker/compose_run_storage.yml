@@ -1,12 +1,16 @@
+#This docker compose file executes the previously initialized node in the Tahoe-LAFS Grid.
 version: "3.8"
 services:
    storageNode:
     image: "derkades/tahoe-lafs:dev"
     networks:
-      nodeHosts: {}
+      host_network: {}
+    configs:
+      - source: testconf
+        target: /data/tahoe.cfg
     environment:
       - SERVICE_URL=${SERVICE_URL}
-      - TUB_PORT=${TAHOE_TUB_PORT}
+      - TAHOE_TUB_PORT=${TAHOE_TUB_PORT}
     deploy:
       mode: global
       resources:
@@ -25,6 +29,9 @@ services:
         target: /storage
     command: run /data
 networks:
-  nodeHosts:
+  host_network:
     external: true
     name: host
+configs:
+  testconf:
+    external: true

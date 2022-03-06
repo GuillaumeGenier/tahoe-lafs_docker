@@ -1,27 +1,28 @@
-version: "3"
+#This docker compose file defines the initialisation of the storage nodes on the Tahoe-LAFS Grid.
+version: "3.8"
 services:
    storageNode:
     image: "derkades/tahoe-lafs:dev"
     networks:
-      nodeHosts: {}
+      host_network: {}
     deploy:
       mode: global
       resources:
         limits:
-          cpus: "0.5"
-          memory: 2G 
+          cpus: "0.25"
+          memory: 1G 
       placement:
         constraints:
           - node.labels.tahoe.storage == true
     volumes:
       - type: bind
-        source: TAHOE_CFG_DIR
+        source: ${TAHOE_CFG_DIR}
         target: /data
       - type: bind
         source: ${TAHOE_STORAGE_DIR}
         target: /storage
     command: create-node --hostname=${SERVICE_URL} /data
 networks:
-  nodeHosts:
+  host_network:
     external: true
     name: host
