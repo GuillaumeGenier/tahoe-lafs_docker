@@ -4,7 +4,7 @@ services:
    storageNode:
     image: "derkades/tahoe-lafs:dev"
     networks:
-      host_network: {}
+      - tahoe_network
     deploy:
       mode: global
       resources:
@@ -15,14 +15,15 @@ services:
         constraints:
           - node.labels.tahoe.storage == true
     volumes:
-      - type: bind
-        source: ${TAHOE_CFG_DIR}
+      - type: volume
+        source: tahoe_storage_config
         target: /data
       - type: bind
         source: ${TAHOE_STORAGE_DIR}
         target: /storage
-    command: create-node --hostname=${SERVICE_URL} /data
+    command: create-node --hostname=dummy_url /data
+volumes:
+  tahoe_storage_config:
 networks:
-  host_network:
-    external: true
-    name: host
+  tahoe_network:
+    driver: overlay

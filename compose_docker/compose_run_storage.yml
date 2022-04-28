@@ -4,13 +4,15 @@ services:
    storageNode:
     image: "derkades/tahoe-lafs:dev"
     networks:
-      host_network: {}
+      - tahoe_network
     configs:
-      - source: testconf
+      - source: storage_conf
         target: /data/tahoe.cfg
+      - source: introducer_furl
+        target: /data/private/introducers.yaml
     environment:
-      - SERVICE_URL=${SERVICE_URL}
       - TAHOE_TUB_PORT=${TAHOE_TUB_PORT}
+      - TAHOE_INTRODUCER_FURL=${TAHOE_INTRODUCER_FURL}
     deploy:
       mode: global
       resources:
@@ -21,17 +23,22 @@ services:
         constraints:
           - node.labels.tahoe.storage == true
     volumes:
-      - type: bind
-        source: ${TAHOE_CFG_DIR}
+      - type: volume
+        source: tahoe_storage_config
         target: /data
+      - type: bind
+        source: ${TAHOE_LOG_DIR}
+        target: /data/logs
       - type: bind
         source: ${TAHOE_STORAGE_DIR}
         target: /storage
-    command: run /data
+volumes:
+  tahoe_storage_config:
 networks:
-  host_network:
-    external: true
-    name: host
+  tahoe_network:
+    driver: overlay
 configs:
-  testconf:
+  storage_conf:
+    external: true
+  introducer_furl:
     external: true

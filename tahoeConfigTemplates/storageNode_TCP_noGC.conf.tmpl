@@ -2,7 +2,7 @@
 #The values will be provisionned by the environement variables from the actual docker container instance.
 
 [node]
-nickname = {{.Service.Name}}-{{.Node.Hostname}}
+nickname = {{.Service.Name}}-{{.Node.ID}}
 #Change the default port for the node's webserver. The webserver is disabled if not set.
 web.port =
 
@@ -11,7 +11,7 @@ web.port =
 #The tub.location controls the port and protocol shared to the grid's introducers.
 #If one of the two former settings is disabled, the other must be also disabled. This causes a client-only node.
 tub.port = tcp:{{env "TAHOE_TUB_PORT"}}
-tub.location = tcp:{{.Service.Name}}-{{.Node.ID}}.{{env "SERVICE_URL"}}:{{env "TAHOE_TUB_PORT"}}
+tub.location = tcp:{{.Node.ID}}:{{env "TAHOE_TUB_PORT"}}
 
 #The client connection timeout in seconds, default of 240 (4 minutes). Disabled if unset.
 #86400 seconds is a day
@@ -25,7 +25,7 @@ tcp = tcp
 
 [storage]
 enabled = true
-storage_dir = "/storage"
+storage_dir = /storage
 reserved_space = 1G
 readonly = false
 expire.enabled = false
