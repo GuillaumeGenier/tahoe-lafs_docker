@@ -2,7 +2,7 @@
 version: "3.8"
 services:
    storageNode:
-    image: "derkades/tahoe-lafs:dev"
+    image: goglu6/tahoe-lafs-storage:dev
     networks:
       - tahoe_network
     configs:
@@ -12,31 +12,26 @@ services:
         target: /data/private/introducers.yaml
     environment:
       - TAHOE_TUB_PORT=${TAHOE_TUB_PORT}
-      - TAHOE_INTRODUCER_FURL=${TAHOE_INTRODUCER_FURL}
     deploy:
       mode: global
       resources:
         limits:
-          cpus: "0.25"
-          memory: 1G 
+          cpus: "1"
+          memory: 2G 
       placement:
         constraints:
           - node.labels.tahoe.storage == true
     volumes:
-      - type: volume
-        source: tahoe_storage_config
-        target: /data
       - type: bind
         source: ${TAHOE_LOG_DIR}
         target: /data/logs
       - type: bind
         source: ${TAHOE_STORAGE_DIR}
         target: /storage
-volumes:
-  tahoe_storage_config:
 networks:
   tahoe_network:
     driver: overlay
+    external: true
 configs:
   storage_conf:
     external: true

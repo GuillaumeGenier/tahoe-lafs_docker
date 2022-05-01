@@ -1,0 +1,17 @@
+#This file is a template for the confguration of a Tahoe-LAFS introducer node (tahoe.cfg).
+#The variables will be provisionned by the environement variables from the actual docker container instance.
+
+[node]
+nickname = introducerNode
+#Change the default port for the node's webserver. The webserver is disabled if not set.
+web.port =
+
+#The "tub" is the servers's component listening for the requests on the TAHOE-LAFS grid.
+#The tub.port controls the port and protocol used by the node to listen to the nodes on the grid.
+#The tub.location controls the port and protocol shared to the grid's introducers.
+#If one of the two former settings is disabled, the other must be also disabled. This causes a client-only node.
+tub.port = tcp:{{env "TAHOE_TUB_PORT"}}
+tub.location = tcp:introducerNode:{{env "TAHOE_TUB_PORT"}}
+
+[connections]
+tcp = tcp

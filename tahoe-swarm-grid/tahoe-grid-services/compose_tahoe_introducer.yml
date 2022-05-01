@@ -1,0 +1,30 @@
+#This docker compose file executes the previously initialized node in the Tahoe-LAFS Grid.
+version: "3.8"
+services:
+   introducerNode:
+    image: goglu6/tahoe-lafs-introducer:dev
+    networks:
+      - tahoe_network
+    configs:
+      - source: introducer_conf
+        target: /data/tahoe.cfg
+    environment:
+      - TAHOE_TUB_PORT=${TAHOE_TUB_PORT}
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          cpus: "1"
+          memory: 2G 
+    volumes:
+      - type: bind
+        source: ${TAHOE_LOG_DIR}
+        target: /data/logs
+networks:
+  tahoe_network:
+    driver: overlay
+    external: true
+configs:
+  introducer_conf:
+    external: true

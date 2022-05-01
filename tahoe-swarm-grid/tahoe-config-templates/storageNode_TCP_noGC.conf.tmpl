@@ -1,8 +1,9 @@
 #This file is a template for the confguration of a Tahoe-LAFS storage node (tahoe.cfg).
 #The values will be provisionned by the environement variables from the actual docker container instance.
+#The storage nodes defined here does no use garbage collection. They will fill up as time goes by.
 
 [node]
-nickname = {{.Service.Name}}-{{.Node.ID}}
+nickname = {{.Task.Name}}
 #Change the default port for the node's webserver. The webserver is disabled if not set.
 web.port =
 
@@ -11,13 +12,13 @@ web.port =
 #The tub.location controls the port and protocol shared to the grid's introducers.
 #If one of the two former settings is disabled, the other must be also disabled. This causes a client-only node.
 tub.port = tcp:{{env "TAHOE_TUB_PORT"}}
-tub.location = tcp:{{.Node.ID}}:{{env "TAHOE_TUB_PORT"}}
+tub.location = tcp:{{.Task.Name}}:{{env "TAHOE_TUB_PORT"}}
 
 #The client connection timeout in seconds, default of 240 (4 minutes). Disabled if unset.
 #86400 seconds is a day
 timeout.disconnect = 86400
 
-#If this is set to false, stop and warns if the node would indicates it's IP from the present configuration file.
+#If this is set to false, stop and warns if the node would publish it's IP from running the present configuration file.
 reveal-IP-address = true
 
 [connections]
