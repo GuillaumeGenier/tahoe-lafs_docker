@@ -24,12 +24,16 @@ services:
           - node.labels.tahoe.storage == true
     volumes:
       - type: volume
+        source: conf-storage
+        target: /data
+      - type: volume
         source: log-storage
         target: /data/logs
       - type: bind
         source: ${TAHOE_STORAGE_DIR}
         target: /storage
 volumes:
+  conf-storage:
   log-storage:
 configs:
   storage-conf:

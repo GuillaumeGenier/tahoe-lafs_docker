@@ -1,0 +1,29 @@
+#This file is a template for the confguration of a Tahoe-LAFS client (sftp) node (tahoe.cfg).
+#This configuration is safer than the http client.
+
+[node]
+nickname = {{.Task.Name}}
+reveal-IP-address = true
+web.port = 
+web.static =
+tub.port = disabled
+tub.location = disabled
+
+[client]
+# Encoding parameters this client will use for newly-uploaded files
+shares.needed = 1
+shares.happy = 1
+shares.total = 1
+
+[sftpd]
+enabled = true
+port = tcp:{{env "TAHOE_SSH_PORT"}}
+host_pubkey_file =  /run/secrets/public_key_ssh
+host_privkey_file = /run/secrets/private_key_ssh
+accounts.file = /run/secrets/accounts_sftp
+
+[storage]
+enabled = false
+
+[helper]
+enabled = false

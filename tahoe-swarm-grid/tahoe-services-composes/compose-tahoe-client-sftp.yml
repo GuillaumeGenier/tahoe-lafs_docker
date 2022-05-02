@@ -1,23 +1,27 @@
-#This docker compose file executes a http client node.
-#This node inherently unsafed and exists for debugging purposes.
+#This docker compose file executes sftp client nodes.
+#Increasing the replicas count will spawn many identical node.
 version: "3.8"
 services:
-   client-http-node:
+   client-sftp-node:
     image: goglu6/tahoe-lafs-client-http:dev
     ports:
-      - target: ${TAHOE_WEB_PORT}
-        published: ${TAHOE_WEB_PORT}
+      - target: ${TAHOE_SSH_PORT}
+        published: ${TAHOE_SSH_PORT}
         protocol: tcp
         mode: host
     networks:
       -  tahoe-grid-network
+    secrets:
+      - private_key_ssh
+      - public_key_ssh
+      - accounts_sftp
     configs:
-      - source: client_conf
+      - source: sftp_conf
         target: /data/tahoe.cfg
       - source: introducer_furl
         target: /data/private/introducers.yaml
     environment:
-      - TAHOE_WEB_PORT=${TAHOE_WEB_PORT}
+      - TAHOE_SSH_PORT=${TAHOE_SSH_PORT}
       - TAHOE_TUB_PORT=${TAHOE_TUB_PORT}
     deploy:
       mode: replicated
@@ -28,13 +32,20 @@ services:
           memory: 2G 
     volumes:
       - type: volume
-        source: log-client-http
+        source: log-client-sftp
         target: /data/logs
 volumes:
-  log-client-http:
+  log-client-sftp:
+secrets:
+  private_key_ssh:
+      file: ../tahoe-secrets-templates/private.key
+  public_key_ssh:
+      file: ../tahoe-secrets-templates/public.key
+  accounts_sftp:
+    file: ../tahoe-secrets-templates/sftp-accounts.tmpl
 configs:
-  client_conf:
-    file: ../tahoe-config-templates/client-http-config.tmpl
+  sftp_conf:
+    file: ../tahoe-config-templates/client-sftp-config.tmpl
     template_driver: golang
   introducer_furl:
     file: ../tahoe-config-templates/introducer-furl.tmpl
