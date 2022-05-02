@@ -2,7 +2,7 @@
 #The variables will be provisionned by the environement variables from the actual docker container instance.
 
 [node]
-nickname = introducerNode
+nickname = introducer-node
 #Change the default port for the node's webserver. The webserver is disabled if not set.
 web.port =
 
@@ -11,7 +11,7 @@ web.port =
 #The tub.location controls the port and protocol shared to the grid's introducers.
 #If one of the two former settings is disabled, the other must be also disabled. This causes a client-only node.
 tub.port = tcp:{{env "TAHOE_TUB_PORT"}}
-tub.location = tcp:introducerNode:{{env "TAHOE_TUB_PORT"}}
+tub.location = tcp:introducer-node:{{env "TAHOE_TUB_PORT"}}
 
 [connections]
 tcp = tcp

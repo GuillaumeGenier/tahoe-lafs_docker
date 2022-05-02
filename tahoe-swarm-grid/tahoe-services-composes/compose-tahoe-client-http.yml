@@ -1,0 +1,44 @@
+#This docker compose file executes the previously initialized node in the Tahoe-LAFS Grid.
+version: "3.8"
+services:
+   client-http-node:
+    image: goglu6/tahoe-lafs-client-http:dev
+    ports:
+      - target: ${TAHOE_WEB_PORT}
+        published: ${TAHOE_WEB_PORT}
+        protocol: tcp
+        mode: host
+    networks:
+      -  tahoe-grid-network
+    configs:
+      - source: client_conf
+        target: /data/tahoe.cfg
+      - source: introducer_furl
+        target: /data/private/introducers.yaml
+    environment:
+      - TAHOE_WEB_PORT=${TAHOE_WEB_PORT}
+      - TAHOE_TUB_PORT=${TAHOE_TUB_PORT}
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          cpus: "1"
+          memory: 2G 
+    volumes:
+      - type: volume
+        source: log-client-http
+        target: /data/logs
+volumes:
+  log-client-http:
+configs:
+  client_conf:
+    file: ../tahoe-config-templates/client-http-config.tmpl
+    template_driver: golang
+  introducer_furl:
+    file: ../tahoe-config-templates/introducer-furl.tmpl
+    template_driver: golang
+networks:
+   tahoe-grid-network:
+    driver: overlay
+    external: true
