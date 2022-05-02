@@ -1,3 +1,6 @@
+#This file is a template for the confguration of a Tahoe-LAFS client (http) node (tahoe.cfg).
+#This configuration is unsafe and mainly there for debugging purposes
+
 [node]
 nickname = {{.Task.Name}}
 reveal-IP-address = true
@@ -6,12 +9,8 @@ web.static = public_html
 tub.port = disabled
 tub.location = disabled
 
-
 [client]
 # Encoding parameters this client will use for newly-uploaded files
-# This can be changed at any time: the encoding is saved in
-# each filecap, and we can download old files with any encoding
-# settings
 shares.needed = 1
 shares.happy = 1
 shares.total = 1
