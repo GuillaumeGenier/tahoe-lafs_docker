@@ -2,7 +2,7 @@
 version: "3.8"
 services:
    introducer-node:
-    image: goglu6/tahoe-lafs-introducer:dev
+    image: goglu6/tahoe-lafs-introducer:latest
     networks:
       - tahoe-grid-network
     configs:

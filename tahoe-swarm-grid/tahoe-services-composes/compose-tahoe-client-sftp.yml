@@ -3,7 +3,7 @@
 version: "3.8"
 services:
    client-sftp-node:
-    image: goglu6/tahoe-lafs-client-http:dev
+    image: goglu6/tahoe-lafs-node:latest
     ports:
       - target: ${TAHOE_SSH_PORT}
         published: ${TAHOE_SSH_PORT}

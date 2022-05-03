@@ -2,7 +2,7 @@
 version: "3.8"
 services:
    storage-node:
-    image: goglu6/tahoe-lafs-storage:dev
+    image: goglu6/tahoe-lafs-node:latest
     hostname: "{{.Node.ID}}.{{.Task.ID}}"
     networks:
       - tahoe-grid-network
