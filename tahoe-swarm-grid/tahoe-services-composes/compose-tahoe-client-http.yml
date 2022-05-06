@@ -8,7 +8,7 @@ services:
       - target: ${TAHOE_WEB_PORT}
         published: ${TAHOE_WEB_PORT}
         protocol: tcp
-        mode: host
+        mode: ingress
     networks:
       -  tahoe-grid-network
     configs:

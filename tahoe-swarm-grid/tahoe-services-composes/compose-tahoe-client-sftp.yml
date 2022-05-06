@@ -8,7 +8,7 @@ services:
       - target: ${TAHOE_SSH_PORT}
         published: ${TAHOE_SSH_PORT}
         protocol: tcp
-        mode: host
+        mode: ingress
     networks:
       -  tahoe-grid-network
     secrets:
