@@ -17,7 +17,7 @@ services:
       mode: global
       resources:
         limits:
-          cpus: "1"
+          cpus: "2"
           memory: 2G 
       placement:
         constraints:
@@ -37,10 +37,10 @@ volumes:
   log-storage:
 configs:
   storage-conf:
-    file: ../tahoe-config-templates/storageNode-TCP-noGC.conf.tmpl
+    file: ./storageNode-TCP-noGC.conf.tmpl
     template_driver: golang
   introducer_furl:
-      file: ../tahoe-config-templates/introducer-furl.tmpl
+      file: ../introducer-furl.tmpl
       template_driver: golang
 networks:
   tahoe-grid-network:

@@ -25,7 +25,7 @@ volumes:
   log-introducer:
 configs:
   introducer-conf:
-    file: ../tahoe-config-templates/introducerNode-TCP.conf.tmpl
+    file: ./introducerNode-TCP.conf.tmpl
     template_driver: golang
 networks:
   tahoe-grid-network:

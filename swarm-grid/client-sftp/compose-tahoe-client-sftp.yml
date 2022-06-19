@@ -28,7 +28,7 @@ services:
       replicas: 1
       resources:
         limits:
-          cpus: "1"
+          cpus: "2"
           memory: 2G 
     volumes:
       - type: volume
@@ -38,17 +38,17 @@ volumes:
   log-client-sftp:
 secrets:
   private_key_ssh:
-      file: ../tahoe-secrets-templates/private.key
+      file: ./secrets/private.key
   public_key_ssh:
-      file: ../tahoe-secrets-templates/public.key
+      file: ./secrets/public.key
   accounts_sftp:
-    file: ../tahoe-secrets-templates/sftp-accounts.tmpl
+    file: ./secrets/sftp-accounts.keys
 configs:
   sftp_conf:
-    file: ../tahoe-config-templates/client-sftp-config.tmpl
+    file: ./client-sftp-config.tmpl
     template_driver: golang
   introducer_furl:
-    file: ../tahoe-config-templates/introducer-furl.tmpl
+    file: ../introducer-furl.tmpl
     template_driver: golang
 networks:
    tahoe-grid-network:

@@ -34,10 +34,10 @@ volumes:
   log-client-http:
 configs:
   client_conf:
-    file: ../tahoe-config-templates/client-http-config.tmpl
+    file: ./client-http-config.tmpl
     template_driver: golang
   introducer_furl:
-    file: ../tahoe-config-templates/introducer-furl.tmpl
+    file: ../introducer-furl.tmpl
     template_driver: golang
 networks:
    tahoe-grid-network:

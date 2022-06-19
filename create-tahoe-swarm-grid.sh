@@ -15,12 +15,15 @@ export TAHOE_TUB_PORT
 export TAHOE_WEB_PORT
 export TAHOE_SSH_PORT
 
-mkdir -p ${TAHOE_STORAGE_DIR}
+#Execute this commands on all the storage nodes
+#mkdir -p ${TAHOE_STORAGE_DIR}
 
 docker network create -d overlay --attachable tahoe-grid-network
 
-docker stack deploy tahoe-grid \
--c $SCRIPT_DIR/tahoe-swarm-grid/tahoe-services-composes/compose-tahoe-storage.yml \
--c $SCRIPT_DIR/tahoe-swarm-grid/tahoe-services-composes/compose-tahoe-introducer.yml \
--c $SCRIPT_DIR/tahoe-swarm-grid/tahoe-services-composes/compose-tahoe-client-http.yml \
--c $SCRIPT_DIR/tahoe-swarm-grid/tahoe-services-composes/compose-tahoe-client-sftp.yml
+docker stack deploy tahoe-storage -c $SCRIPT_DIR/swarm-grid/server-storage/compose-tahoe-storage.yml
+
+docker stack deploy tahoe-introducer -c $SCRIPT_DIR/swarm-grid/server-introducer/compose-tahoe-introducer.yml
+
+docker stack deploy tahoe-http-debug -c $SCRIPT_DIR/swarm-grid/client-http/compose-tahoe-client-http.yml 
+
+#docker stack deploy tahoe-sftp -c $SCRIPT_DIR/swarm-grid/client-sftp/compose-tahoe-client-sftp.yml
