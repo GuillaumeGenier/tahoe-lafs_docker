@@ -15,6 +15,8 @@ services:
       - private_key_ssh
       - public_key_ssh
       - accounts_sftp
+      - source: convergence
+        target: /data/private/convergence
     configs:
       - source: sftp_conf
         target: /data/tahoe.cfg
@@ -43,6 +45,8 @@ secrets:
       file: ./secrets/public.key
   accounts_sftp:
     file: ./secrets/sftp-accounts.keys
+  convergence:
+    file: ./secrets/convergence
 configs:
   sftp_conf:
     file: ./client-sftp-config.tmpl

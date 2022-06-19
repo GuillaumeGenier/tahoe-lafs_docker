@@ -24,6 +24,7 @@ docker stack deploy tahoe-storage -c $SCRIPT_DIR/swarm-grid/server-storage/compo
 
 docker stack deploy tahoe-introducer -c $SCRIPT_DIR/swarm-grid/server-introducer/compose-tahoe-introducer.yml
 
-docker stack deploy tahoe-http-debug -c $SCRIPT_DIR/swarm-grid/client-http/compose-tahoe-client-http.yml 
+docker stack deploy tahoe-sftp -c $SCRIPT_DIR/swarm-grid/client-sftp/compose-tahoe-client-sftp.yml
 
-#docker stack deploy tahoe-sftp -c $SCRIPT_DIR/swarm-grid/client-sftp/compose-tahoe-client-sftp.yml
+#Debug (dangerous) http access
+# docker stack deploy tahoe-http-debug -c $SCRIPT_DIR/swarm-grid/client-http/compose-tahoe-client-http.yml 
